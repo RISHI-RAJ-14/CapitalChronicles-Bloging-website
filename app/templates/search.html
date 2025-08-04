@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}
+  Search Results
+{% endblock %}
+{% block content %}
+<div class="container">
+  <h1>Search Results for "{{query}}"</h1>
+</div>
+  <div class="container my-5">
+    <div class="row">
+        {% for item in result %}
+        <div class="col-md-4 mb-4">
+          <div class="card h-100">
+            <img src="{{item.image}}" class="card-img-top" alt="{{item.title}}">
+            <div class="card-body">
+              <h5 class="card-title">{{item.title}}</h5>
+              <p class="card-text">{{item.description | truncatewords:20}}</p>
+  
+              <!-- Like button and count -->
+             <!-- Like & Comment Section -->
+             <div class="d-flex align-items-center justify-content-between">
+              
+                <!-- Like Button -->
+                <div>
+                  <form method="POST" action="{% url 'like_posts' pk=item.pk %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-danger btn-sm me-2">
+                      <i class="fa fa-heart"></i> Like
+                    </button>
+                  </form>
+                  <span class="like-count">{{item.likes}}</span> Likes
+                </div>
+  
+                <!-- Comment Count -->
+                <div>
+                  <i class="fa fa-comment text-primary"></i>
+                  <span class="comment-count">{{item.comments.count}}</span> Comments
+                </div>
+  
+              </div>
+  
+  
+              <!-- Read more link -->
+              <a href="{%url 'detail' item.pk%}" class="btn btn-primary mt-2">Read more</a>
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+          <div style="min-height: 50vh;">
+            <p>No results found for {{query}}</p>
+          </div>
+        </div>
+        {% endfor %}
+    </div>
+  </div>
+{% endblock content %}
