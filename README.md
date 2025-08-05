@@ -1,4 +1,4 @@
-# Sample2 Django Project
+# Sample Django Project
 
 This is a Django project configured for deployment on Vercel.
 
